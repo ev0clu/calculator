@@ -3,7 +3,8 @@ let displayLowerValue = "";
 let displayUpperValue = "";
 let operateResult = 0;
 let operatorValue = "";
-let cycle = 0;
+let cycleOperate = 0;
+let cycleEqual = 0;
 
 //--------- Functions declaration  ---------//
 function add(a, b){
@@ -62,33 +63,37 @@ displayLower.textContent = displayLowerValue;
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
     if(button.classList.contains("btn-plusminus")){
-       // Add "-" at the beginning of displayLowerValue if it is still not exist
-      if(!displayLowerValue.includes("-")) {
-        if((displayLowerValue[0] == "0" && displayLowerValue[1] == ".") || (displayLowerValue[0] != "0")){
-          displayLowerValue = `-${displayLowerValue}`;
+      if(cycleEqual != undefined){
+        // Add "-" at the beginning of displayLowerValue if it is still not exist
+        if(!displayLowerValue.includes("-")) {
+          if((displayLowerValue[0] == "0" && displayLowerValue[1] == ".") || (displayLowerValue[0] != "0")){
+            displayLowerValue = `-${displayLowerValue}`;
+          }
+        }
+        // Remove "-" from the beginning of displayLowerValue if it is still exist
+        else if(displayLowerValue[0] != "0"){
+          displayLowerValue = displayLowerValue.slice(1);
+        }
+        displayUpper.textContent = displayUpperValue;
+        displayLower.textContent = displayLowerValue;
         }
       }
-      // Remove "-" from the beginning of displayLowerValue if it is still exist
-      else if(displayLowerValue[0] != "0"){
-        displayLowerValue = displayLowerValue.slice(1);
-      }
-      displayUpper.textContent = displayUpperValue;
-      displayLower.textContent = displayLowerValue;
-    }
 
 
     else if(button.classList.contains("btn-dot")){
-      if(!displayLowerValue.includes(".")) {
-        // Add dot: after "0" or if "-" followed by 1 number or after any number
-        if(displayLowerValue[0] == "0" || 
-        (displayLowerValue[0] == "-" && displayLowerValue.length >= 2) || 
-        (displayLowerValue[0] != "0" && displayLowerValue[0] != "-")){
-        displayLowerValue = `${displayLowerValue}.`;
+      if(cycleEqual != undefined){
+        if(!displayLowerValue.includes(".")) {
+          // Add dot: after "0" or if "-" followed by 1 number or after any number
+          if(displayLowerValue[0] == "0" || 
+          (displayLowerValue[0] == "-" && displayLowerValue.length >= 2) || 
+          (displayLowerValue[0] != "0" && displayLowerValue[0] != "-")){
+          displayLowerValue = `${displayLowerValue}.`;
+          }
+        }
+        displayUpper.textContent = displayUpperValue;
+        displayLower.textContent = displayLowerValue;
         }
       }
-      displayUpper.textContent = displayUpperValue;
-      displayLower.textContent = displayLowerValue;
-    }
 
 
     else if(button.classList.contains("btn-backspace")){
@@ -113,7 +118,8 @@ buttons.forEach((button) => {
       displayLowerValue = "0";
       displayUpperValue = "";
       operatorValue = "";
-      cycle = 0;
+      cycleOperate = 0;
+      cycleEqual = 0;
       displayUpper.textContent = displayUpperValue;
       displayLower.textContent = displayLowerValue;
     }
@@ -124,20 +130,22 @@ buttons.forEach((button) => {
 
       // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
       // than push the content to the upper part of the screen
-      if(displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)){
+      if((displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)) && cycleOperate != undefined){
         // The "+" is pressed at the first time
-        if(cycle == 0) {
+        if(cycleOperate == 0) {
         displayUpperValue = `${displayLowerValue} ${operatorValue}`;
+        cycleEqual = 1;
         }
 
-        // The "+" is press after the first time
-        if(cycle == 1) {
+        // The "+" is pressed after the first time
+        if(cycleOperate == 1) {
           displayUpperValue = `${displayUpperValue.slice(0, -2)}`;
           operateResult = roundOperate(operate(displayLowerValue, displayUpperValue, operatorValue));
           displayLowerValue = `${operateResult}`;
           displayUpperValue = `${operateResult} ${operatorValue}`;
+          
         }
-        cycle = 1;
+        cycleOperate = 1;
         displayUpper.textContent = displayUpperValue;
         displayLower.textContent = displayLowerValue;
         displayLowerValue = "0";
@@ -156,15 +164,17 @@ buttons.forEach((button) => {
 
     else if(button.classList.contains("btn-equal")){
       // Only works if the 2 numbers are available
-      if(cycle == 1){
+      if(cycleEqual == 1){
         displayUpperValue = `${displayUpperValue.slice(0, -2)}`;
+        displayLowerValue = displayLower.textContent;
         operateResult = roundOperate(operate(displayLowerValue, displayUpperValue, operatorValue));
         displayUpperValue = `${displayUpperValue} ${operatorValue} ${displayLowerValue} =`;
         displayLowerValue = `${operateResult}`;
       
         displayUpper.textContent = displayUpperValue;
         displayLower.textContent = displayLowerValue;
-        cycle = 0;
+        cycleOperate = 0;
+        cycleEqual = undefined;
       }
       
     }
@@ -179,6 +189,13 @@ buttons.forEach((button) => {
         // If any number is pressed, than remove the default "0" and add the new numbert to one after another
         if(displayLowerValue == "0"){
           displayLowerValue = displayLowerValue.slice(1);
+        }
+        else if(cycleEqual == undefined){
+          displayLowerValue = "";
+          displayUpperValue = "";
+          operatorValue = "";
+          cycleOperate = 0;
+          cycleEqual = 0;
         }
         displayLowerValue += button.textContent;
       }
