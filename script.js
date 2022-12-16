@@ -109,7 +109,7 @@ buttons.forEach((button) => {
 
 
     else if(button.classList.contains("btn-clear")){
-      // Set the displayLowerValue to "0"
+      // Set the displayLowerValue and displayUpperValue to "0", reset the variables
       displayLowerValue = "0";
       displayUpperValue = "";
       operatorValue = "";
@@ -122,11 +122,15 @@ buttons.forEach((button) => {
     else if(button.classList.contains("btn-plus")){
       operatorValue = "+";
 
+      // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
+      // than push the content to the upper part of the screen
       if(displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)){
+        // The "+" is pressed at the first time
         if(cycle == 0) {
         displayUpperValue = `${displayLowerValue} ${operatorValue}`;
         }
 
+        // The "+" is press after the first time
         if(cycle == 1) {
           displayUpperValue = `${displayUpperValue.slice(0, -2)}`;
           operateResult = roundOperate(operate(displayLowerValue, displayUpperValue, operatorValue));
@@ -151,6 +155,7 @@ buttons.forEach((button) => {
 
 
     else if(button.classList.contains("btn-equal")){
+      // Only works if the 2 numbers are available
       if(cycle == 1){
         displayUpperValue = `${displayUpperValue.slice(0, -2)}`;
         operateResult = roundOperate(operate(displayLowerValue, displayUpperValue, operatorValue));
@@ -166,10 +171,12 @@ buttons.forEach((button) => {
 
     // If "number" buttons are pressed, than add to displayLowerValue
     else {
+      // If "0" is pressed, than do not add additional "0", replace it with single "0"
       if(displayLowerValue == "0" && button.textContent == "0") {
         displayLowerValue = "0";
       }
       else {
+        // If any number is pressed, than remove the default "0" and add the new numbert to one after another
         if(displayLowerValue == "0"){
           displayLowerValue = displayLowerValue.slice(1);
         }
