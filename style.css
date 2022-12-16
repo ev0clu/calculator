@@ -6,7 +6,6 @@
     padding: 0;
 }
 
-
 body {
     font-family: 'Roboto', sans-serif;
     position: relative;
@@ -18,6 +17,63 @@ body {
     justify-content: center;
 }
 
+.main {
+    width: 430px;
+    height: 510px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    background-color: #c4c4c4;
+}
+
+.display-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+
+.numeric-container {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-template-rows: repeat(6, 65px);
+    gap: 2px;
+}
+
+
+.display-container {
+    width: 430px;
+    height: 150px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.numeric-container {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-template-rows: repeat(6, 65px);
+    gap: 2px;
+}
+
+button {
+    font-size: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-clear {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
 
 .footer {
     position: absolute;
