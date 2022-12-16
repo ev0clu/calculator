@@ -120,6 +120,24 @@ buttons.forEach((button) => {
 
 
     else if(button.classList.contains("btn-plus")){
+      operatorValue = "+";
+
+      if(displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)){
+        if(cycle == 0) {
+        displayUpperValue = `${displayLowerValue} ${operatorValue}`;
+        }
+
+        if(cycle == 1) {
+          displayUpperValue = `${displayUpperValue.slice(0, -2)}`;
+          operateResult = roundOperate(operate(displayLowerValue, displayUpperValue, operatorValue));
+          displayLowerValue = `${operateResult}`;
+          displayUpperValue = `${operateResult} ${operatorValue}`;
+        }
+        cycle = 1;
+        displayUpper.textContent = displayUpperValue;
+        displayLower.textContent = displayLowerValue;
+        displayLowerValue = "0";
+      }
     }
 
     else if(button.classList.contains("btn-minus")){
@@ -132,7 +150,18 @@ buttons.forEach((button) => {
     }
 
 
-    else if(button.classList.contains("btn-equal")){      
+    else if(button.classList.contains("btn-equal")){
+      if(cycle == 1){
+        displayUpperValue = `${displayUpperValue.slice(0, -2)}`;
+        operateResult = roundOperate(operate(displayLowerValue, displayUpperValue, operatorValue));
+        displayUpperValue = `${displayUpperValue} ${operatorValue} ${displayLowerValue} =`;
+        displayLowerValue = `${operateResult}`;
+      
+        displayUpper.textContent = displayUpperValue;
+        displayLower.textContent = displayLowerValue;
+        cycle = 0;
+      }
+      
     }
 
     // If "number" buttons are pressed, than add to displayLowerValue
