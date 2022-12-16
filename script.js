@@ -97,19 +97,21 @@ buttons.forEach((button) => {
 
 
     else if(button.classList.contains("btn-backspace")){
-      // Remove the last char from displayLowerValue
-      displayLowerValue = displayLowerValue.slice(0, displayLowerValue.length - 1);
-      
-      // If the value of displayLowerValue is "-0", set the displayLowerValue to "0"
-      // If the value of displayLowerValue is "-", set the displayLowerValue to "0"
-      // If the length of displayLowerValue is 0, set the displayLowerValue to "0"
-      if((displayLowerValue[0] == "-" && displayLowerValue[1] == "0" && displayLowerValue.length == 2) || 
-      (displayLowerValue.length == 1 && displayLowerValue == "-") ||
-      (displayLowerValue.length == 0)){
-        displayLowerValue = "0";
-      }
-      displayUpper.textContent = displayUpperValue;
-      displayLower.textContent = displayLowerValue;
+      if(cycleEqual != undefined){
+        // Remove the last char from displayLowerValue
+        displayLowerValue = displayLowerValue.slice(0, displayLowerValue.length - 1);
+        
+        // If the value of displayLowerValue is "-0", set the displayLowerValue to "0"
+        // If the value of displayLowerValue is "-", set the displayLowerValue to "0"
+        // If the length of displayLowerValue is 0, set the displayLowerValue to "0"
+        if((displayLowerValue[0] == "-" && displayLowerValue[1] == "0" && displayLowerValue.length == 2) || 
+        (displayLowerValue.length == 1 && displayLowerValue == "-") ||
+        (displayLowerValue.length == 0)){
+          displayLowerValue = "0";
+        }
+        displayUpper.textContent = displayUpperValue;
+        displayLower.textContent = displayLowerValue;
+        }
     }
 
 
