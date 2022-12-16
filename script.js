@@ -48,6 +48,11 @@ function roundOperate(number){
   return Math.round(number * 1000)/1000;
 }
 
+function updateDisplay()
+{
+  displayUpper.textContent = displayUpperValue;
+  displayLower.textContent = displayLowerValue;
+}
 
 //--------- Query Selectors ---------//
 const buttons = document.querySelectorAll("button");
@@ -74,8 +79,7 @@ buttons.forEach((button) => {
         else if(displayLowerValue[0] != "0"){
           displayLowerValue = displayLowerValue.slice(1);
         }
-        displayUpper.textContent = displayUpperValue;
-        displayLower.textContent = displayLowerValue;
+        updateDisplay();
         }
       }
 
@@ -90,8 +94,7 @@ buttons.forEach((button) => {
           displayLowerValue = `${displayLowerValue}.`;
           }
         }
-        displayUpper.textContent = displayUpperValue;
-        displayLower.textContent = displayLowerValue;
+        updateDisplay();
         }
       }
 
@@ -109,9 +112,8 @@ buttons.forEach((button) => {
         (displayLowerValue.length == 0)){
           displayLowerValue = "0";
         }
-        displayUpper.textContent = displayUpperValue;
-        displayLower.textContent = displayLowerValue;
-        }
+        updateDisplay();
+      }
     }
 
 
@@ -122,8 +124,7 @@ buttons.forEach((button) => {
       operatorValue = "";
       cycleOperate = 0;
       cycleEqual = 0;
-      displayUpper.textContent = displayUpperValue;
-      displayLower.textContent = displayLowerValue;
+      updateDisplay();
     }
 
 
@@ -148,8 +149,7 @@ buttons.forEach((button) => {
           
         }
         cycleOperate = 1;
-        displayUpper.textContent = displayUpperValue;
-        displayLower.textContent = displayLowerValue;
+        updateDisplay();
         displayLowerValue = "0";
       }
     }
@@ -173,10 +173,9 @@ buttons.forEach((button) => {
         displayUpperValue = `${displayUpperValue} ${operatorValue} ${displayLowerValue} =`;
         displayLowerValue = `${operateResult}`;
       
-        displayUpper.textContent = displayUpperValue;
-        displayLower.textContent = displayLowerValue;
         cycleOperate = 0;
         cycleEqual = undefined;
+        updateDisplay();
       }
       
     }
@@ -201,8 +200,7 @@ buttons.forEach((button) => {
         }
         displayLowerValue += button.textContent;
       }
-      displayUpper.textContent = displayUpperValue;
-      displayLower.textContent = displayLowerValue;
+      updateDisplay();
     }
   });
 });
