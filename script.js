@@ -143,10 +143,9 @@ buttons.forEach((button) => {
         // The "+" is pressed after the first time
         if(cycleOperate == 1) {
           displayUpperValue = `${displayUpperValue.slice(0, -2)}`;
-          operateResult = roundOperate(operate(displayLowerValue, displayUpperValue, operatorValue));
+          operateResult = roundOperate(operate(displayUpperValue, displayLowerValue, operatorValue));
           displayLowerValue = `${operateResult}`;
           displayUpperValue = `${operateResult} ${operatorValue}`;
-          
         }
         cycleOperate = 1;
         updateDisplay();
@@ -155,6 +154,29 @@ buttons.forEach((button) => {
     }
 
     else if(button.classList.contains("btn-minus")){
+      operatorValue = "-";
+
+      // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
+      // than push the content to the upper part of the screen
+      if((displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)) && cycleOperate != undefined){
+        // The "+" is pressed at the first time
+        if(cycleOperate == 0) {
+        displayUpperValue = `${displayLowerValue} ${operatorValue}`;
+        cycleEqual = 1;
+        }
+
+        // The "+" is pressed after the first time
+        if(cycleOperate == 1) {
+          displayUpperValue = `${displayUpperValue.slice(0, -2)}`;
+          console.log(displayUpperValue, displayLowerValue, operatorValue);
+          operateResult = roundOperate(operate(displayUpperValue, displayLowerValue, operatorValue));
+          displayLowerValue = `${operateResult}`;
+          displayUpperValue = `${operateResult} ${operatorValue}`;
+        }
+        cycleOperate = 1;
+        updateDisplay();
+        displayLowerValue = "0";
+      }
     }
 
     else if(button.classList.contains("btn-multiply")){
@@ -169,15 +191,15 @@ buttons.forEach((button) => {
       if(cycleEqual == 1){
         displayUpperValue = `${displayUpperValue.slice(0, -2)}`;
         displayLowerValue = displayLower.textContent;
-        operateResult = roundOperate(operate(displayLowerValue, displayUpperValue, operatorValue));
+        operateResult = roundOperate(operate(displayUpperValue, displayLowerValue, operatorValue));
         displayUpperValue = `${displayUpperValue} ${operatorValue} ${displayLowerValue} =`;
         displayLowerValue = `${operateResult}`;
       
+        operatorValue = "";
         cycleOperate = 0;
         cycleEqual = undefined;
         updateDisplay();
       }
-      
     }
 
     // If "number" buttons are pressed, than add to displayLowerValue
@@ -191,6 +213,7 @@ buttons.forEach((button) => {
         if(displayLowerValue == "0"){
           displayLowerValue = displayLowerValue.slice(1);
         }
+        // If "equal" button is pressed, reset the variables
         else if(cycleEqual == undefined){
           displayLowerValue = "";
           displayUpperValue = "";
