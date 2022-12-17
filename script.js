@@ -150,18 +150,15 @@ buttons.forEach((button) => {
       // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
       // than push the content to the upper part of the screen
       if((displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)) && cycleOperate != undefined){
-        // The "+" is pressed at the first time
         if(cycleOperate == 0) {
           processOperator();
         }
 
-        // The "+" is pressed after the first time
         else if(cycleOperate == 1 && (currentOperatorValue != previousOperatorValue)) {
           processCalculation(previousOperatorValue, currentOperatorValue);
           updateDisplay();
-          //currentOperatorValue = previousOperatorValue;
-          //processCalculation(currentOperatorValue, previousOperatorValue);
         }
+
         else if(cycleOperate == 1 && (currentOperatorValue == previousOperatorValue)){
           processCalculation(currentOperatorValue, previousOperatorValue);
         }
@@ -178,18 +175,15 @@ buttons.forEach((button) => {
       // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
       // than push the content to the upper part of the screen
       if((displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)) && cycleOperate != undefined){
-        // The "+" is pressed at the first time
         if(cycleOperate == 0) {
           processOperator();
         }
 
-        // The "+" is pressed after the first time
         else if(cycleOperate == 1 && (currentOperatorValue != previousOperatorValue)) {
           processCalculation(previousOperatorValue, currentOperatorValue);
           updateDisplay();
-          //currentOperatorValue = previousOperatorValue;
-          //processCalculation(currentOperatorValue, previousOperatorValue);
         }
+
         else if(cycleOperate == 1 && (currentOperatorValue == previousOperatorValue)){
           processCalculation(currentOperatorValue, previousOperatorValue);
         }
@@ -200,9 +194,53 @@ buttons.forEach((button) => {
     }
 
     else if(button.classList.contains("btn-multiply")){
+      previousOperatorValue = currentOperatorValue;
+      currentOperatorValue = "*";
+
+      // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
+      // than push the content to the upper part of the screen
+      if((displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)) && cycleOperate != undefined){
+        if(cycleOperate == 0) {
+          processOperator();
+        }
+
+        else if(cycleOperate == 1 && (currentOperatorValue != previousOperatorValue)) {
+          processCalculation(previousOperatorValue, currentOperatorValue);
+          updateDisplay();
+
+        }
+        else if(cycleOperate == 1 && (currentOperatorValue == previousOperatorValue)){
+          processCalculation(currentOperatorValue, previousOperatorValue);
+        }
+        
+        updateDisplay();
+        displayLowerValue = "0";
+      }
     }
 
     else if(button.classList.contains("btn-divide")){
+      previousOperatorValue = currentOperatorValue;
+      currentOperatorValue = "/";
+
+      // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
+      // than push the content to the upper part of the screen
+      if((displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)) && cycleOperate != undefined){
+        if(cycleOperate == 0) {
+          processOperator();
+        }
+
+        else if(cycleOperate == 1 && (currentOperatorValue != previousOperatorValue)) {
+          processCalculation(previousOperatorValue, currentOperatorValue);
+          updateDisplay();
+        }
+
+        else if(cycleOperate == 1 && (currentOperatorValue == previousOperatorValue)){
+          processCalculation(currentOperatorValue, previousOperatorValue);
+        }
+        
+        updateDisplay();
+        displayLowerValue = "0";
+      }
     }
 
 
@@ -225,7 +263,7 @@ buttons.forEach((button) => {
 
     // If "number" buttons are pressed, than add to displayLowerValue
     else {
-      // If "0" is pressed, than do not add additional "0", replace it with single "0"
+      // If "0" is pressed or displayLowerValue equal with "0", than do not add additional "0", replace it with single "0"
       if(displayLowerValue == "0" && button.textContent == "0") {
         displayLowerValue = "0";
       }
