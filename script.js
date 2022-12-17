@@ -185,7 +185,7 @@ buttons.forEach((button) => {
         else if(cycleOperate == 1 && (currentOperatorValue == previousOperatorValue)){
           processCalculation(currentOperatorValue, previousOperatorValue);
         }
-        
+
         updateDisplay();
         displayLowerValue = "0";
       }
@@ -209,7 +209,7 @@ buttons.forEach((button) => {
         else if(cycleOperate == 1 && (currentOperatorValue == previousOperatorValue)){
           processCalculation(currentOperatorValue, previousOperatorValue);
         }
-        
+
         updateDisplay();
         displayLowerValue = "0";
       }
@@ -254,8 +254,6 @@ buttons.forEach((button) => {
             displayLowerValue = "0";
           }
         }
-        
-        
       }
     }
 
@@ -303,7 +301,11 @@ buttons.forEach((button) => {
           cycleOperate = 0;
           cycleEqual = 0;
         }
-        displayLowerValue += button.textContent;
+        // Limit the displayLowerValue to max 5, no more number can be add
+        if(displayLowerValue.length < 11){
+          displayLowerValue += button.textContent;
+        }
+        
       }
       updateDisplay();
     }
