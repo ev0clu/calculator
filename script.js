@@ -2,7 +2,8 @@
 let displayLowerValue = "";
 let displayUpperValue = "";
 let operateResult = 0;
-let operatorValue = "";
+let currentOperatorValue = "";
+let previousOperatorValue = "";
 let cycleOperate = 0;
 let cycleEqual = 0;
 
@@ -54,27 +55,17 @@ function updateDisplay()
   displayLower.textContent = displayLowerValue;
 }
 
-function processCalculation(){
-  // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
-  // than push the content to the upper part of the screen
-  if((displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)) && cycleOperate != undefined){
-    // The "+" is pressed at the first time
-    if(cycleOperate == 0) {
-    displayUpperValue = `${displayLowerValue} ${operatorValue}`;
-    cycleEqual = 1;
-    }
+function processOperator(){
+  displayUpperValue = `${displayLowerValue} ${currentOperatorValue}`;
+  cycleEqual = 1;
+  cycleOperate = 1;
+}
 
-    // The "+" is pressed after the first time
-    if(cycleOperate == 1) {
-      displayUpperValue = `${displayUpperValue.slice(0, -2)}`;
-      operateResult = roundOperate(operate(displayUpperValue, displayLowerValue, operatorValue));
-      displayLowerValue = `${operateResult}`;
-      displayUpperValue = `${operateResult} ${operatorValue}`;
-    }
-    cycleOperate = 1;
-    updateDisplay();
-    displayLowerValue = "0";
-  }
+function processCalculation(currentOperator, previousOperator){
+  displayUpperValue = `${displayUpperValue.slice(0, -2)}`;
+  operateResult = roundOperate(operate(displayUpperValue, displayLowerValue, currentOperator));
+  displayLowerValue = `${operateResult}`;
+  displayUpperValue = `${operateResult} ${previousOperator}`;
 }
 
 //--------- Query Selectors ---------//
@@ -144,31 +135,74 @@ buttons.forEach((button) => {
       // Set the displayLowerValue and displayUpperValue to "0", reset the variables
       displayLowerValue = "0";
       displayUpperValue = "";
-      operatorValue = "";
+      currentOperatorValue = "";
+      previousOperatorValue = "";
       cycleOperate = 0;
       cycleEqual = 0;
       updateDisplay();
     }
 
 
-    else if(button.classList.contains("btn-plus")){
-      operatorValue = "+";
-      processCalculation();
+    else if(button.classList.contains("btn-plus")){    
+      previousOperatorValue = currentOperatorValue;
+      currentOperatorValue = "+";
+
+      // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
+      // than push the content to the upper part of the screen
+      if((displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)) && cycleOperate != undefined){
+        // The "+" is pressed at the first time
+        if(cycleOperate == 0) {
+          processOperator();
+        }
+
+        // The "+" is pressed after the first time
+        else if(cycleOperate == 1 && (currentOperatorValue != previousOperatorValue)) {
+          processCalculation(previousOperatorValue, currentOperatorValue);
+          updateDisplay();
+          //currentOperatorValue = previousOperatorValue;
+          //processCalculation(currentOperatorValue, previousOperatorValue);
+        }
+        else if(cycleOperate == 1 && (currentOperatorValue == previousOperatorValue)){
+          processCalculation(currentOperatorValue, previousOperatorValue);
+        }
+        
+        updateDisplay();
+        //displayLowerValue = "0";
+      }
     }
 
     else if(button.classList.contains("btn-minus")){
-      operatorValue = "-";
-      processCalculation();
+      previousOperatorValue = currentOperatorValue;
+      currentOperatorValue = "-";
+
+      // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
+      // than push the content to the upper part of the screen
+      if((displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)) && cycleOperate != undefined){
+        // The "+" is pressed at the first time
+        if(cycleOperate == 0) {
+          processOperator();
+        }
+
+        // The "+" is pressed after the first time
+        else if(cycleOperate == 1 && (currentOperatorValue != previousOperatorValue)) {
+          processCalculation(previousOperatorValue, currentOperatorValue);
+          updateDisplay();
+          //currentOperatorValue = previousOperatorValue;
+          //processCalculation(currentOperatorValue, previousOperatorValue);
+        }
+        else if(cycleOperate == 1 && (currentOperatorValue == previousOperatorValue)){
+          processCalculation(currentOperatorValue, previousOperatorValue);
+        }
+        
+        updateDisplay();
+        //displayLowerValue = "0";
+      }
     }
 
     else if(button.classList.contains("btn-multiply")){
-      operatorValue = "*";
-      processCalculation();
     }
 
     else if(button.classList.contains("btn-divide")){
-      operatorValue = "/";
-      processCalculation();
     }
 
 
@@ -177,11 +211,12 @@ buttons.forEach((button) => {
       if(cycleEqual == 1){
         displayUpperValue = `${displayUpperValue.slice(0, -2)}`;
         displayLowerValue = displayLower.textContent;
-        operateResult = roundOperate(operate(displayUpperValue, displayLowerValue, operatorValue));
-        displayUpperValue = `${displayUpperValue} ${operatorValue} ${displayLowerValue} =`;
+        operateResult = roundOperate(operate(displayUpperValue, displayLowerValue, currentOperatorValue));
+        displayUpperValue = `${displayUpperValue} ${currentOperatorValue} ${displayLowerValue} =`;
         displayLowerValue = `${operateResult}`;
       
-        operatorValue = "";
+        currentOperatorValue = "";
+        previousOperatorValue = "";
         cycleOperate = 0;
         cycleEqual = undefined;
         updateDisplay();
@@ -196,14 +231,15 @@ buttons.forEach((button) => {
       }
       else {
         // If any number is pressed, than remove the default "0" and add the new numbert to one after another
-        if(displayLowerValue == "0"){
+        if(displayLowerValue == "0" || currentOperatorValue != ""){
           displayLowerValue = displayLowerValue.slice(1);
         }
         // If "equal" button is pressed, reset the variables
         else if(cycleEqual == undefined){
           displayLowerValue = "";
           displayUpperValue = "";
-          operatorValue = "";
+          currentOperatorValue = "";
+          previousOperatorValue = "";
           cycleOperate = 0;
           cycleEqual = 0;
         }
