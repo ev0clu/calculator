@@ -156,7 +156,6 @@ buttons.forEach((button) => {
 
         else if(cycleOperate == 1 && (currentOperatorValue != previousOperatorValue)) {
           processCalculation(previousOperatorValue, currentOperatorValue);
-          updateDisplay();
         }
 
         else if(cycleOperate == 1 && (currentOperatorValue == previousOperatorValue)){
@@ -181,7 +180,6 @@ buttons.forEach((button) => {
 
         else if(cycleOperate == 1 && (currentOperatorValue != previousOperatorValue)) {
           processCalculation(previousOperatorValue, currentOperatorValue);
-          updateDisplay();
         }
 
         else if(cycleOperate == 1 && (currentOperatorValue == previousOperatorValue)){
@@ -206,7 +204,6 @@ buttons.forEach((button) => {
 
         else if(cycleOperate == 1 && (currentOperatorValue != previousOperatorValue)) {
           processCalculation(previousOperatorValue, currentOperatorValue);
-          updateDisplay();
 
         }
         else if(cycleOperate == 1 && (currentOperatorValue == previousOperatorValue)){
@@ -231,7 +228,6 @@ buttons.forEach((button) => {
 
         else if(cycleOperate == 1 && (currentOperatorValue != previousOperatorValue)) {
           processCalculation(previousOperatorValue, currentOperatorValue);
-          updateDisplay();
         }
 
         else if(cycleOperate == 1 && (currentOperatorValue == previousOperatorValue)){
