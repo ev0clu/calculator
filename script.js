@@ -167,7 +167,7 @@ buttons.forEach((button) => {
         }
         
         updateDisplay();
-        //displayLowerValue = "0";
+        displayLowerValue = "0";
       }
     }
 
@@ -195,7 +195,7 @@ buttons.forEach((button) => {
         }
         
         updateDisplay();
-        //displayLowerValue = "0";
+        displayLowerValue = "0";
       }
     }
 
@@ -231,7 +231,7 @@ buttons.forEach((button) => {
       }
       else {
         // If any number is pressed, than remove the default "0" and add the new numbert to one after another
-        if(displayLowerValue == "0" || currentOperatorValue != ""){
+        if(displayLowerValue == "0"){
           displayLowerValue = displayLowerValue.slice(1);
         }
         // If "equal" button is pressed, reset the variables
