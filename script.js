@@ -36,11 +36,11 @@ function operate(a, b, operator){
   switch(operator) {
     case "+":
       return add(a, b);
-    case "-":
+    case "−":
       return subtract(a, b);
-    case "*":
+    case "×":
       return multiply(a, b);
-    case "/":
+    case "÷":
       return divide(a, b);
   }
 }
@@ -169,7 +169,7 @@ buttons.forEach((button) => {
 
     else if(button.classList.contains("btn-minus")){
       previousOperatorValue = currentOperatorValue;
-      currentOperatorValue = "-";
+      currentOperatorValue = "−";
 
       // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
       // than push the content to the upper part of the screen
@@ -193,7 +193,7 @@ buttons.forEach((button) => {
 
     else if(button.classList.contains("btn-multiply")){
       previousOperatorValue = currentOperatorValue;
-      currentOperatorValue = "*";
+      currentOperatorValue = "×";
 
       // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
       // than push the content to the upper part of the screen
@@ -217,7 +217,7 @@ buttons.forEach((button) => {
 
     else if(button.classList.contains("btn-divide")){
       previousOperatorValue = currentOperatorValue;
-      currentOperatorValue = "/";
+      currentOperatorValue = "÷";
 
       // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
       // than push the content to the upper part of the screen
