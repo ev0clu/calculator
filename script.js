@@ -224,18 +224,38 @@ buttons.forEach((button) => {
       if((displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)) && cycleOperate != undefined){
         if(cycleOperate == 0) {
           processOperator();
+          updateDisplay();
+          displayLowerValue = "0";
         }
 
         else if(cycleOperate == 1 && (currentOperatorValue != previousOperatorValue)) {
-          processCalculation(previousOperatorValue, currentOperatorValue);
+          if(displayLowerValue == "0"){
+            displayLowerValue = "Cannot divide by zero";
+            displayUpperValue = "";
+            updateDisplay();
+          }
+          else{
+            processCalculation(previousOperatorValue, currentOperatorValue);
+            updateDisplay();
+            displayLowerValue = "0";
+          }
+          
         }
 
         else if(cycleOperate == 1 && (currentOperatorValue == previousOperatorValue)){
-          processCalculation(currentOperatorValue, previousOperatorValue);
+          if(displayLowerValue == "0"){
+            displayLowerValue = "Cannot divide by zero";
+            displayUpperValue = "";
+            updateDisplay();
+          }
+          else{
+            processCalculation(currentOperatorValue, previousOperatorValue);
+            updateDisplay();
+            displayLowerValue = "0";
+          }
         }
         
-        updateDisplay();
-        displayLowerValue = "0";
+        
       }
     }
 
@@ -245,9 +265,15 @@ buttons.forEach((button) => {
       if(cycleEqual == 1){
         displayUpperValue = `${displayUpperValue.slice(0, -2)}`;
         displayLowerValue = displayLower.textContent;
+        if(displayLowerValue == "0"){
+          displayLowerValue = "Cannot divide by zero";
+          displayUpperValue = "";
+        }
+        else{
         operateResult = roundOperate(operate(displayUpperValue, displayLowerValue, currentOperatorValue));
         displayUpperValue = `${displayUpperValue} ${currentOperatorValue} ${displayLowerValue} =`;
         displayLowerValue = `${operateResult}`;
+        }
       
         currentOperatorValue = "";
         previousOperatorValue = "";
