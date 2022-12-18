@@ -125,6 +125,7 @@ buttons.forEach((button) => {
           (displayLowerValue[0] == "-" && displayLowerValue.length >= 2) || 
           (displayLowerValue[0] != "0" && displayLowerValue[0] != "-")){
           displayLowerValue = `${displayLowerValue}.`;
+          processEnd = false;
           }
         }
         displayLower.textContent = displayLowerValue;
