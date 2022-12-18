@@ -59,6 +59,7 @@ function processOperator(operator){
   firstNumber = displayLower.textContent;
   if(firstNumber[firstNumber.length-1] == "."){
     firstNumber = firstNumber.slice(0, firstNumber.length - 1);
+    displayLower.textContent = firstNumber;
   }
   displayUpperValue = `${firstNumber} ${currentOperatorValue}`;
   cycleEqual = 1;
