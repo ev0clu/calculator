@@ -149,7 +149,7 @@ buttons.forEach((button) => {
 
       // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
       // than push the content to the upper part of the screen
-      if((displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)) && cycleOperate != undefined){
+      if(displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)){
         if(cycleOperate == 0) {
           processOperator();
         }
@@ -173,7 +173,7 @@ buttons.forEach((button) => {
 
       // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
       // than push the content to the upper part of the screen
-      if((displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)) && cycleOperate != undefined){
+      if(displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)){
         if(cycleOperate == 0) {
           processOperator();
         }
@@ -197,7 +197,7 @@ buttons.forEach((button) => {
 
       // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
       // than push the content to the upper part of the screen
-      if((displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)) && cycleOperate != undefined){
+      if(displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)){
         if(cycleOperate == 0) {
           processOperator();
         }
@@ -221,7 +221,7 @@ buttons.forEach((button) => {
 
       // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
       // than push the content to the upper part of the screen
-      if((displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)) && cycleOperate != undefined){
+      if(displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)){
         if(cycleOperate == 0) {
           processOperator();
           updateDisplay();
