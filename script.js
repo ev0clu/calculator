@@ -70,8 +70,8 @@ function processOperator(operator){
 function processCalculation(){
   if(processEnd == true) return;
   if(currentOperatorValue == "÷" && currentNumber == "0"){
-    displayLowerValue = "Cannot divide by zero";
-    displayUpperValue = "";
+    displayUpperValue = "Cannot divide by zero";
+    displayLowerValue = "";
     displayUpper.textContent = displayUpperValue;
     displayLower.textContent = displayLowerValue;
     return
@@ -199,8 +199,8 @@ buttons.forEach((button) => {
         displayUpperValue = firstNumber;
         displayLowerValue = displayLower.textContent;
         if(displayLowerValue == "0"){
-          displayLowerValue = "Cannot divide by zero";
-          displayUpperValue = "";
+          displayUpperValue = "Cannot divide by zero";
+          displayLowerValue = "";
         }
         else{
           if(displayLowerValue[displayLowerValue.length-1] == "."){
