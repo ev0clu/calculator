@@ -3,8 +3,10 @@ let displayLowerValue = "";
 let displayUpperValue = "";
 let operateResult = 0;
 let currentOperatorValue = "";
-let previousOperatorValue = "";
-let cycleOperate = 0;
+let operatorValue = "";
+let processEnd = false;
+let firstNumber = "";
+let secondNumber = "";
 let cycleEqual = 0;
 
 //--------- Functions declaration  ---------//
@@ -49,23 +51,40 @@ function roundOperate(number){
   return Math.round(number * 1000)/1000;
 }
 
-function updateDisplay()
-{
+function processOperator(operator){
+  if(currentOperatorValue != ""){
+    processCalculation();
+  }
+  currentOperatorValue = operator;
+  firstNumber = displayLower.textContent;
+  if(firstNumber[firstNumber.length-1] == "."){
+    firstNumber = firstNumber.slice(0, firstNumber.length - 1);
+  }
+  displayUpperValue = `${firstNumber} ${currentOperatorValue}`;
+  cycleEqual = 1;
+  processEnd = true;
+  displayUpper.textContent = displayUpperValue;
+}
+
+function processCalculation(){
+  if(processEnd == true) return;
+  if(currentOperatorValue == "÷" && currentNumber == "0"){
+    displayLowerValue = "Cannot divide by zero";
+    displayUpperValue = "";
+    displayUpper.textContent = displayUpperValue;
+    displayLower.textContent = displayLowerValue;
+    return
+  }
+  secondNumber = displayLower.textContent;
+  if(secondNumber[secondNumber.length-1] == "."){
+    secondNumber = secondNumber.slice(0, secondNumber.length - 1);
+  }
+  operateResult = roundOperate(operate(firstNumber, secondNumber, currentOperatorValue));
+  displayLowerValue = `${operateResult}`;
+  displayUpperValue = `${operateResult} ${currentOperatorValue}`;
+  currentOperatorValue = "";
   displayUpper.textContent = displayUpperValue;
   displayLower.textContent = displayLowerValue;
-}
-
-function processOperator(){
-  displayUpperValue = `${displayLowerValue} ${currentOperatorValue}`;
-  cycleEqual = 1;
-  cycleOperate = 1;
-}
-
-function processCalculation(currentOperator, previousOperator){
-  displayUpperValue = `${displayUpperValue.slice(0, -2)}`;
-  operateResult = roundOperate(operate(displayUpperValue, displayLowerValue, currentOperator));
-  displayLowerValue = `${operateResult}`;
-  displayUpperValue = `${operateResult} ${previousOperator}`;
 }
 
 //--------- Query Selectors ---------//
@@ -93,7 +112,7 @@ buttons.forEach((button) => {
         else if(displayLowerValue[0] != "0"){
           displayLowerValue = displayLowerValue.slice(1);
         }
-        updateDisplay();
+        displayLower.textContent = displayLowerValue;
         }
       }
 
@@ -108,7 +127,7 @@ buttons.forEach((button) => {
           displayLowerValue = `${displayLowerValue}.`;
           }
         }
-        updateDisplay();
+        displayLower.textContent = displayLowerValue;
         }
       }
 
@@ -126,7 +145,7 @@ buttons.forEach((button) => {
         (displayLowerValue.length == 0)){
           displayLowerValue = "0";
         }
-        updateDisplay();
+        displayLower.textContent = displayLowerValue;
       }
     }
 
@@ -136,132 +155,46 @@ buttons.forEach((button) => {
       displayLowerValue = "0";
       displayUpperValue = "";
       currentOperatorValue = "";
-      previousOperatorValue = "";
-      cycleOperate = 0;
+      operatorValue = "";
+      processEnd = false;
+      firstNumber = "";
+      secondNumber = "";
       cycleEqual = 0;
-      updateDisplay();
+      displayUpper.textContent = displayUpperValue;
+      displayLower.textContent = displayLowerValue;
     }
 
 
     else if(button.classList.contains("btn-plus")){    
-      previousOperatorValue = currentOperatorValue;
-      currentOperatorValue = "+";
-
-      // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
-      // than push the content to the upper part of the screen
-      if(displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)){
-        if(cycleOperate == 0) {
-          processOperator();
-        }
-
-        else if(cycleOperate == 1 && (currentOperatorValue != previousOperatorValue)) {
-          processCalculation(previousOperatorValue, currentOperatorValue);
-        }
-
-        else if(cycleOperate == 1 && (currentOperatorValue == previousOperatorValue)){
-          processCalculation(currentOperatorValue, previousOperatorValue);
-        }
-        
-        updateDisplay();
-        displayLowerValue = "0";
-      }
+      operatorValue = "+";
+      processOperator(operatorValue);
+      displayLowerValue = "0";
     }
 
     else if(button.classList.contains("btn-minus")){
-      previousOperatorValue = currentOperatorValue;
-      currentOperatorValue = "−";
-
-      // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
-      // than push the content to the upper part of the screen
-      if(displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)){
-        if(cycleOperate == 0) {
-          processOperator();
-        }
-
-        else if(cycleOperate == 1 && (currentOperatorValue != previousOperatorValue)) {
-          processCalculation(previousOperatorValue, currentOperatorValue);
-        }
-
-        else if(cycleOperate == 1 && (currentOperatorValue == previousOperatorValue)){
-          processCalculation(currentOperatorValue, previousOperatorValue);
-        }
-
-        updateDisplay();
-        displayLowerValue = "0";
-      }
+      operatorValue = "−";
+      processOperator(operatorValue);
+      displayLowerValue = "0";
     }
 
     else if(button.classList.contains("btn-multiply")){
-      previousOperatorValue = currentOperatorValue;
-      currentOperatorValue = "×";
-
-      // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
-      // than push the content to the upper part of the screen
-      if(displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)){
-        if(cycleOperate == 0) {
-          processOperator();
-        }
-
-        else if(cycleOperate == 1 && (currentOperatorValue != previousOperatorValue)) {
-          processCalculation(previousOperatorValue, currentOperatorValue);
-
-        }
-        else if(cycleOperate == 1 && (currentOperatorValue == previousOperatorValue)){
-          processCalculation(currentOperatorValue, previousOperatorValue);
-        }
-
-        updateDisplay();
-        displayLowerValue = "0";
-      }
+      operatorValue = "×";
+      processOperator(operatorValue);
+      displayLowerValue = "0";
     }
 
     else if(button.classList.contains("btn-divide")){
-      previousOperatorValue = currentOperatorValue;
-      currentOperatorValue = "÷";
-
-      // If the 2nd char of displayLowerValue is "." or "." and the length is equal or higher than 3, 
-      // than push the content to the upper part of the screen
-      if(displayLowerValue[1] != "." || (displayLowerValue[1] == "." && displayLowerValue.length >=3)){
-        if(cycleOperate == 0) {
-          processOperator();
-          updateDisplay();
-          displayLowerValue = "0";
-        }
-
-        else if(cycleOperate == 1 && (currentOperatorValue != previousOperatorValue)) {
-          if(displayLowerValue == "0"){
-            displayLowerValue = "Cannot divide by zero";
-            displayUpperValue = "";
-            updateDisplay();
-          }
-          else{
-            processCalculation(previousOperatorValue, currentOperatorValue);
-            updateDisplay();
-            displayLowerValue = "0";
-          }
-          
-        }
-
-        else if(cycleOperate == 1 && (currentOperatorValue == previousOperatorValue)){
-          if(displayLowerValue == "0"){
-            displayLowerValue = "Cannot divide by zero";
-            displayUpperValue = "";
-            updateDisplay();
-          }
-          else{
-            processCalculation(currentOperatorValue, previousOperatorValue);
-            updateDisplay();
-            displayLowerValue = "0";
-          }
-        }
-      }
+      operatorValue = "÷";
+      processOperator(operatorValue);
+      displayLowerValue = "0";
     }
 
 
     else if(button.classList.contains("btn-equal")){
       // Only works if the 2 numbers are available
       if(cycleEqual == 1){
-        displayUpperValue = `${displayUpperValue.slice(0, -2)}`;
+        //displayUpperValue = `${displayUpperValue.slice(0, -2)}`;
+        displayUpperValue = firstNumber;
         displayLowerValue = displayLower.textContent;
         if(displayLowerValue == "0"){
           displayLowerValue = "Cannot divide by zero";
@@ -269,20 +202,20 @@ buttons.forEach((button) => {
         }
         else{
         operateResult = roundOperate(operate(displayUpperValue, displayLowerValue, currentOperatorValue));
-        displayUpperValue = `${displayUpperValue} ${currentOperatorValue} ${displayLowerValue} =`;
+        displayUpperValue = `${firstNumber} ${currentOperatorValue} ${displayLowerValue} =`;
         displayLowerValue = `${operateResult}`;
         }
       
         currentOperatorValue = "";
-        previousOperatorValue = "";
-        cycleOperate = 0;
         cycleEqual = undefined;
-        updateDisplay();
+        displayUpper.textContent = displayUpperValue;
+        displayLower.textContent = displayLowerValue;
       }
     }
 
     // If "number" buttons are pressed, than add to displayLowerValue
     else {
+      processEnd = false;
       // If "0" is pressed or displayLowerValue equal with "0", than do not add additional "0", replace it with single "0"
       if(displayLowerValue == "0" && button.textContent == "0") {
         displayLowerValue = "0";
@@ -296,10 +229,8 @@ buttons.forEach((button) => {
         else if(cycleEqual == undefined){
           displayLowerValue = "";
           displayUpperValue = "";
-          currentOperatorValue = "";
-          previousOperatorValue = "";
-          cycleOperate = 0;
           cycleEqual = 0;
+          displayUpper.textContent = displayUpperValue;
         }
         // Limit the displayLowerValue to max 5, no more number can be add
         if(displayLowerValue.length < 11){
@@ -307,7 +238,7 @@ buttons.forEach((button) => {
         }
         
       }
-      updateDisplay();
+      displayLower.textContent = displayLowerValue;
     }
   });
 });
