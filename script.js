@@ -202,9 +202,12 @@ buttons.forEach((button) => {
           displayUpperValue = "";
         }
         else{
-        operateResult = roundOperate(operate(displayUpperValue, displayLowerValue, currentOperatorValue));
-        displayUpperValue = `${firstNumber} ${currentOperatorValue} ${displayLowerValue} =`;
-        displayLowerValue = `${operateResult}`;
+          if(displayLowerValue[displayLowerValue.length-1] == "."){
+            displayLowerValue = displayLowerValue.slice(0, displayLowerValue.length - 1);
+          }
+          operateResult = roundOperate(operate(displayUpperValue, displayLowerValue, currentOperatorValue));
+          displayUpperValue = `${firstNumber} ${currentOperatorValue} ${displayLowerValue} =`;
+          displayLowerValue = `${operateResult}`;
         }
       
         currentOperatorValue = "";
