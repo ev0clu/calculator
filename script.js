@@ -8,6 +8,8 @@ let processEnd = false;
 let firstNumber = "";
 let secondNumber = "";
 let cycleEqual = 0;
+const regexNum = /[0-9]/g;
+const regexDot = /[.]|[,]/g;
 
 //--------- Functions declaration  ---------//
 function add(a, b){
@@ -88,20 +90,9 @@ function processCalculation(){
   displayLower.textContent = displayLowerValue;
 }
 
-//--------- Query Selectors ---------//
-const buttons = document.querySelectorAll("button");
-const displayUpper = document.querySelector(".display-upper");
-const displayLower= document.querySelector(".display-lower");
-
-
-//--------- Set default values ---------//
-displayLowerValue = "0";
-displayLower.textContent = displayLowerValue;
-
-// --------- Event listeners ---------//
-buttons.forEach((button) => {
-  button.addEventListener("click", () => {
-    if(button.classList.contains("btn-plusminus")){
+function eventHandler(keydown){
+  switch(keydown) {
+    case "±":
       if(cycleEqual != undefined){
         // Add "-" at the beginning of displayLowerValue if it is still not exist
         if(!displayLowerValue.includes("-")) {
@@ -114,11 +105,9 @@ buttons.forEach((button) => {
           displayLowerValue = displayLowerValue.slice(1);
         }
         displayLower.textContent = displayLowerValue;
-        }
       }
-
-
-    else if(button.classList.contains("btn-dot")){
+      break;
+    case ".":
       if(cycleEqual != undefined){
         if(!displayLowerValue.includes(".")) {
           // Add dot: after "0" or if "-" followed by 1 number or after any number
@@ -130,11 +119,9 @@ buttons.forEach((button) => {
           }
         }
         displayLower.textContent = displayLowerValue;
-        }
       }
-
-
-    else if(button.classList.contains("btn-backspace")){
+      break;
+    case "backspace":
       if(cycleEqual != undefined){
         // Remove the last char from displayLowerValue
         displayLowerValue = displayLowerValue.slice(0, displayLowerValue.length - 1);
@@ -149,10 +136,8 @@ buttons.forEach((button) => {
         }
         displayLower.textContent = displayLowerValue;
       }
-    }
-
-
-    else if(button.classList.contains("btn-clear")){
+      break;
+    case "clear":
       // Set the displayLowerValue and displayUpperValue to "0", reset the variables
       displayLowerValue = "0";
       displayUpperValue = "";
@@ -164,35 +149,28 @@ buttons.forEach((button) => {
       cycleEqual = 0;
       displayUpper.textContent = displayUpperValue;
       displayLower.textContent = displayLowerValue;
-    }
-
-
-    else if(button.classList.contains("btn-plus")){    
+      break;
+    case "+":
       operatorValue = "+";
       processOperator(operatorValue);
       displayLowerValue = "0";
-    }
-
-    else if(button.classList.contains("btn-minus")){
+      break;
+    case "−":
       operatorValue = "−";
       processOperator(operatorValue);
       displayLowerValue = "0";
-    }
-
-    else if(button.classList.contains("btn-multiply")){
+      break;
+    case "×":
       operatorValue = "×";
       processOperator(operatorValue);
       displayLowerValue = "0";
-    }
-
-    else if(button.classList.contains("btn-divide")){
+      break;
+    case "÷":
       operatorValue = "÷";
       processOperator(operatorValue);
       displayLowerValue = "0";
-    }
-
-
-    else if(button.classList.contains("btn-equal")){
+      break;
+    case "=":
       // Only works if the 2 numbers are available
       if(cycleEqual == 1){
         //displayUpperValue = `${displayUpperValue.slice(0, -2)}`;
@@ -216,13 +194,11 @@ buttons.forEach((button) => {
         displayUpper.textContent = displayUpperValue;
         displayLower.textContent = displayLowerValue;
       }
-    }
-
-    // If "number" buttons are pressed, than add to displayLowerValue
-    else {
+      break;
+    default:
       processEnd = false;
       // If "0" is pressed or displayLowerValue equal with "0", than do not add additional "0", replace it with single "0"
-      if(displayLowerValue == "0" && button.textContent == "0") {
+      if(displayLowerValue == "0" && keydown == "0") {
         displayLowerValue = "0";
       }
       else {
@@ -239,11 +215,97 @@ buttons.forEach((button) => {
         }
         // Limit the displayLowerValue to max 5, no more number can be add
         if(displayLowerValue.length < 11){
-          displayLowerValue += button.textContent;
+          displayLowerValue += keydown;
         }
         
       }
       displayLower.textContent = displayLowerValue;
+  }
+}
+
+//--------- Query Selectors ---------//
+const buttons = document.querySelectorAll("button");
+const displayUpper = document.querySelector(".display-upper");
+const displayLower= document.querySelector(".display-lower");
+
+//--------- Set default values ---------//
+displayLowerValue = "0";
+displayLower.textContent = displayLowerValue;
+
+// --------- Event listeners ---------//
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if(button.classList.contains("btn-plusminus")){
+      eventHandler("±");
+    }
+
+    else if(button.classList.contains("btn-dot")){
+      eventHandler(".");
+    }
+
+    else if(button.classList.contains("btn-backspace")){
+      eventHandler("backspace");
+    }
+
+    else if(button.classList.contains("btn-clear")){
+      eventHandler("clear");
+    }
+
+    else if(button.classList.contains("btn-plus")){    
+      eventHandler("+");
+    }
+
+    else if(button.classList.contains("btn-minus")){
+      eventHandler("−");
+    }
+
+    else if(button.classList.contains("btn-multiply")){
+      eventHandler("×");
+    }
+
+    else if(button.classList.contains("btn-divide")){
+      eventHandler("÷");
+    }
+
+    else if(button.classList.contains("btn-equal")){
+      eventHandler("=");
+    }
+
+    // If "number" buttons are pressed, than add to displayLowerValue
+    else {
+      eventHandler(button.textContent);
+      
     }
   });
+});
+
+document.addEventListener("keydown", (event) => {
+  if(event.key.match(regexNum) && event.key.length == 1){
+    eventHandler(event.key);
+  }
+  else if(event.key.match(regexDot)){
+    eventHandler(".");
+  }
+  else if(event.key == "+"){
+    eventHandler("+");
+  }
+  else if(event.key == "-"){
+    eventHandler("−");
+  }
+  else if(event.key == "*"){
+    eventHandler("×");
+  }
+  else if(event.key == "/"){
+    eventHandler("÷");
+    event.preventDefault();
+  }
+  else if(event.key == "Backspace"){
+    eventHandler("backspace");
+  }
+  else if(event.key == "Escape"){
+    eventHandler("clear");
+  }
+  else if(event.key == "Enter"){
+    eventHandler("=");
+  }
 });
