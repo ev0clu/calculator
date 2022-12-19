@@ -12,84 +12,6 @@ const regexNum = /[0-9]/g;
 const regexDot = /[.]|[,]/g;
 
 //--------- Functions declaration  ---------//
-function add(a, b){
-  a = Number(a);
-  b = Number(b);
-  return a + b;
-}
-
-function subtract(a, b){
-  a = Number(a);
-  b = Number(b);
-  return a - b;
-}
-
-function multiply(a, b){
-  a = Number(a);
-  b = Number(b);
-  return a * b;
-}
-
-function divide(a, b){
-  a = Number(a);
-  b = Number(b);
-  return a / b;
-}
-
-function operate(a, b, operator){
-  switch(operator) {
-    case "+":
-      return add(a, b);
-    case "−":
-      return subtract(a, b);
-    case "×":
-      return multiply(a, b);
-    case "÷":
-      return divide(a, b);
-  }
-}
-
-function roundOperate(number){
-  return Math.round(number * 1000)/1000;
-}
-
-function processOperator(operator){
-  if(currentOperatorValue != ""){
-    processCalculation();
-  }
-  currentOperatorValue = operator;
-  firstNumber = displayLower.textContent;
-  if(firstNumber[firstNumber.length-1] == "."){
-    firstNumber = firstNumber.slice(0, firstNumber.length - 1);
-    displayLower.textContent = firstNumber;
-  }
-  displayUpperValue = `${firstNumber} ${currentOperatorValue}`;
-  cycleEqual = 1;
-  processEnd = true;
-  displayUpper.textContent = displayUpperValue;
-}
-
-function processCalculation(){
-  if(processEnd == true) return;
-  if(currentOperatorValue == "÷" && currentNumber == "0"){
-    displayUpperValue = "Cannot divide by zero";
-    displayLowerValue = "";
-    displayUpper.textContent = displayUpperValue;
-    displayLower.textContent = displayLowerValue;
-    return
-  }
-  secondNumber = displayLower.textContent;
-  if(secondNumber[secondNumber.length-1] == "."){
-    secondNumber = secondNumber.slice(0, secondNumber.length - 1);
-  }
-  operateResult = roundOperate(operate(firstNumber, secondNumber, currentOperatorValue));
-  displayLowerValue = `${operateResult}`;
-  displayUpperValue = `${operateResult} ${currentOperatorValue}`;
-  currentOperatorValue = "";
-  displayUpper.textContent = displayUpperValue;
-  displayLower.textContent = displayLowerValue;
-}
-
 function eventHandler(keydown){
   switch(keydown) {
     case "±":
@@ -223,6 +145,88 @@ function eventHandler(keydown){
   }
 }
 
+function processOperator(operator){
+  // Execute calculation if operator is available
+  if(currentOperatorValue != ""){
+    processCalculation();
+  }
+  currentOperatorValue = operator;
+  firstNumber = displayLower.textContent;
+  // If operator is pressed and the firstNumber e.g. "1.", remove dot
+  if(firstNumber[firstNumber.length-1] == "."){
+    firstNumber = firstNumber.slice(0, firstNumber.length - 1);
+    displayLower.textContent = firstNumber;
+  }
+  displayUpperValue = `${firstNumber} ${currentOperatorValue}`;
+  cycleEqual = 1;
+  processEnd = true;
+  displayUpper.textContent = displayUpperValue;
+}
+
+function processCalculation(){
+  if(processEnd == true) return;
+  if(currentOperatorValue == "÷" && currentNumber == "0"){
+    displayUpperValue = "Cannot divide by zero";
+    displayLowerValue = "";
+    displayUpper.textContent = displayUpperValue;
+    displayLower.textContent = displayLowerValue;
+    return
+  }
+  secondNumber = displayLower.textContent;
+  // If operator is pressed and the secondNumber e.g. "1.", remove dot
+  if(secondNumber[secondNumber.length-1] == "."){
+    secondNumber = secondNumber.slice(0, secondNumber.length - 1);
+  }
+  operateResult = roundOperate(operate(firstNumber, secondNumber, currentOperatorValue));
+  displayLowerValue = `${operateResult}`;
+  displayUpperValue = `${operateResult} ${currentOperatorValue}`;
+  currentOperatorValue = "";
+  displayUpper.textContent = displayUpperValue;
+  displayLower.textContent = displayLowerValue;
+}
+
+function roundOperate(number){
+  // Fix javascript rounding issue e.g. "0.1 + 0.3"
+  return Math.round(number * 1000)/1000;
+}
+
+function operate(a, b, operator){
+  switch(operator) {
+    case "+":
+      return add(a, b);
+    case "−":
+      return subtract(a, b);
+    case "×":
+      return multiply(a, b);
+    case "÷":
+      return divide(a, b);
+  }
+}
+
+function add(a, b){
+  a = Number(a);
+  b = Number(b);
+  return a + b;
+}
+
+function subtract(a, b){
+  a = Number(a);
+  b = Number(b);
+  return a - b;
+}
+
+function multiply(a, b){
+  a = Number(a);
+  b = Number(b);
+  return a * b;
+}
+
+function divide(a, b){
+  a = Number(a);
+  b = Number(b);
+  return a / b;
+}
+
 //--------- Query Selectors ---------//
 const buttons = document.querySelectorAll("button");
 const displayUpper = document.querySelector(".display-upper");
@@ -280,6 +284,7 @@ buttons.forEach((button) => {
 });
 
 document.addEventListener("keydown", (event) => {
+  // If statement will be executed in case of numbers, except F1...F12
   if(event.key.match(regexNum) && event.key.length == 1){
     eventHandler(event.key);
   }
