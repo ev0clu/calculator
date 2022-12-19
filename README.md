@@ -8,7 +8,9 @@ In this project, a simple calculator has built.
 
 ## Features
 - Basic math operators: add, subtract, multiply, divide
-- 2 Line diplay
+- ± and floating number usage
+- Keyboard support
+- 2 Line display
 
 ### Layout
 ![layout picture](https://github.com/ev0clu/calculator/blob/main/layout.png?raw=true)
